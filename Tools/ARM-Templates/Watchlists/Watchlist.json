@@ -1,0 +1,95 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "workspaceName": {
+            "type": "string",
+            "metadata": {
+                "description": "Workspace name for Log Analytics where Sentinel is setup"
+            }
+        },
+        "watchlistAlias": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 64,
+            "defaultValue": "riskyusers",
+            "metadata": {
+                "description": "Watchlist alias"
+            }
+        },
+        "description": {
+            "type": "string",
+            "defaultValue": "This watchlist contains a list of risky users",
+            "metadata": {
+                "description": "Description of the Watchlist"
+            }
+        },
+        "displayName": {
+            "type": "string",
+            "defaultValue": "RiskyUsers test watchlist",
+            "metadata": {
+                "description": "Display name of the Watchlist"
+            }
+        },
+        "source": {
+            "type": "string",
+            "defaultValue": "Local file/CSV",
+            "metadata": {
+                "description": "Source of the Watchlist"
+            }
+        },
+        "provider": {
+            "type": "string",
+            "defaultValue": "Microsoft",
+            "metadata": {
+                "description": "Provider of the Watchlist (e.g. Microsoft)"
+            }
+        },
+        "numberOfLinesToSkip": {
+            "type": "string",
+            "defaultValue": "0",
+            "metadata": {
+                "description": "The number of metadata lines to ignore in the csv raw content"
+            }
+        },
+        "itemsSearchKey": {
+            "type": "string",
+            "defaultValue": "email",
+            "metadata": {
+                "description": "This can be any header from the CSV file bein uploaded and used for queries in Log Analytics. Eg: email"
+            }
+        },
+        "rawContent": {
+            "type": "string",
+            "defaultValue": "name,email\\nJohn Doe,johndoe@contoso.com",
+            "metadata": {
+                "description": "The csv content where each line break (CRLF) is replaced by \\n. Example: \\nname,email\\nJohn Doe,johndoe@contoso.com"
+            }
+        },
+        "contentType": {
+            "type": "string",
+            "defaultValue": "text/csv",
+            "allowedValues":["text/csv"],
+            "metadata": {
+                "description": "text/csv"
+            }
+        }
+    },
+    "resources": [
+        {
+            "type": "Microsoft.OperationalInsights/workspaces/providers/Watchlists",
+            "name": "[concat(parameters('workspaceName'),'/Microsoft.SecurityInsights/',parameters('watchlistAlias'))]",
+            "apiVersion": "2021-03-01-preview",
+            "properties": {
+                "description": "[parameters('description')]",
+                "displayName": "[parameters('displayName')]",
+                "source": "[parameters('source')]",
+                "provider": "[parameters('provider')]",
+                "numberOfLinesToSkip": "[parameters('numberOfLinesToSkip')]",
+                "itemsSearchKey":"[parameters('itemsSearchKey')]",
+                "rawContent": "[replace(parameters('rawContent'),'\\n', '\n')]",
+                "contentType": "[parameters('contentType')]"
+            }
+        }
+    ]
+}

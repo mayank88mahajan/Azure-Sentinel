@@ -1,0 +1,36 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "workspaceName": {
+            "value": "<Enter Log Analytics Workspace name>"
+        },
+        "watchlistAlias": {
+            "value": "<Enter the alias of the Watchlist>"
+        },
+        "description": {
+            "value": "<Enter a description of the Watchlist>"
+        },
+        "displayName": {
+            "value": "<Enter the display name of the Watchlist>"
+        },
+        "source": {
+            "value": "<Enter the source of the Watchlist>"
+        },
+        "provider": {
+            "value": "<Enter the provider of the Watchlist>"
+        },
+        "numberOfLinesToSkip": {
+            "value": "0"
+        },
+        "itemsSearchKey": {
+            "value": "<Enter the search key field>"
+        },
+        "rawContent": {
+            "value": "<Enter the csv content where each line break (CRLF) is replaced by \n>"
+        },
+        "contentType": {
+            "value": "text/csv"
+        }
+    }
+}
